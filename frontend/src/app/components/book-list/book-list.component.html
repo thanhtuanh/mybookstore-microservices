@@ -1,0 +1,73 @@
+<div style="text-align: center; margin-top: 30px;">
+
+
+  <div style="margin: 20px auto; max-width: 400px;">
+    <input type="text" [(ngModel)]="searchText" (ngModelChange)="updateFilteredBooks()"
+      placeholder="🔍 Suche nach Titel, Autor oder Genre" style="width: 100%; padding: 8px;" />
+  </div>
+
+  <div *ngIf="authService.isLoggedIn()" style="text-align: center; margin: 20px;">
+    <a routerLink="/books/create">
+      <button style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        ➕ Neues Buch hinzufügen
+      </button>
+    </a>
+  </div>
+
+  <div *ngIf="!hasError && filteredBooks.length > 0" style="margin-bottom: 10px;">
+    📦 Gesamt: {{ filteredBooks.length }} Bücher gefunden
+  </div>
+
+
+  <div *ngIf="hasError" style="color: #cc0000; font-weight: bold; margin-top: 20px;">
+    ⚠️ Fehler beim Laden der Bücher.
+  </div>
+
+  <div *ngIf="!hasError && visibleBooks.length === 0" style="margin-top: 20px; color: #777;">
+    📭 Keine Bücher gefunden.
+  </div>
+
+  <table *ngIf="!hasError && visibleBooks.length > 0"
+    style="width: 90%; margin: auto; border-collapse: collapse; margin-top: 20px; text-align: left;">
+    <thead>
+      <tr>
+        <th style="width: 20%;">Titel</th>
+        <th style="width: 15%;">Autor</th>
+        <th style="width: 15%;">Genre</th>
+        <th style="width: 10%;">Seiten</th>
+        <th style="width: 10%;">Preis (€)</th>
+        <th style="width: 10%;">Verfügbar</th>
+        <th style="width: 20%;">Aktion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of visibleBooks">
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.pages }}</td>
+        <td>{{ book.price }}</td>
+        <td>
+          <span *ngIf="book.inStock; else notAvailable" style="color: green;">✔ Ja</span>
+          <ng-template #notAvailable><span style="color: red;">✘ Nein</span></ng-template>
+        </td>
+        <td>
+          <a [routerLink]="['/books', book.id, 'edit']">✏️</a> &nbsp;&nbsp;&nbsp;
+          <a href="#" (click)="deleteBook(book.id)">🗑️</a>
+        </td>
+      </tr>
+      <!-- Leere Zeilen auffüllen -->
+      <tr *ngFor="let empty of [].constructor(itemsPerPage - visibleBooks.length)">
+        <td colspan="7">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="totalPages() > 1" style="margin: 20px;">
+    <button *ngFor="let page of [].constructor(totalPages()); let i = index" (click)="goToPage(i + 1)"
+      [style.fontWeight]="currentPage === (i + 1) ? 'bold' : 'normal'"
+      style="margin: 0 5px; padding: 5px 10px; border-radius: 4px;">
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>

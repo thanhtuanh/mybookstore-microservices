@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  # PostgreSQL für Auth-Service
+  postgres-auth:
+    image: postgres
+    environment:
+      POSTGRES_DB: authdb # Name der Datenbank
+      POSTGRES_USER: admin # Benutzername
+      POSTGRES_PASSWORD: admin # Passwort
+    ports:
+      - "5433:5432" # Externer Port:Interner Port
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data # Persistente Daten
+
+  # PostgreSQL für Book-Service
+  postgres-book:
+    image: postgres
+    environment:
+      POSTGRES_DB: bookdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_book_data:/var/lib/postgresql/data
+
+  # Auth-Service (Spring Boot Microservice)
+  auth-service:
+    build:
+      context: ./auth-service # Pfad zum Auth-Service Dockerfile
+      dockerfile: Dockerfile
+    container_name: auth-service
+    depends_on:
+      - postgres-auth # Erst starten, wenn postgres-auth läuft
+    ports:
+      - "8081:8081" # API erreichbar unter localhost:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/authdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  # Book-Service (Spring Boot Microservice)
+  book-service:
+    build:
+      context: ./book-service
+      dockerfile: Dockerfile
+    container_name: book-service
+    depends_on:
+      - postgres-book # Erst starten, wenn postgres-book läuft
+    ports:
+      - "8082:8082" # API erreichbar unter localhost:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-book:5432/bookdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ./frontend # Pfad zum Angular-Projekt
+      dockerfile: Dockerfile
+    container_name: bookstore-frontend
+    depends_on:
+      - auth-service # Warten auf Backend-Services
+      - book-service
+    ports:
+      - "4200:4200" # Angular App erreichbar unter localhost:4200
+    volumes:
+      - ./frontend:/app # Bind-Mount für Live-Entwicklung
+      - /app/node_modules # Ausschluss von node_modules (damit lokal bleibt)
+
+# Volumes zur Datenpersistenz
+volumes:
+  postgres_auth_data:
+  postgres_book_data:

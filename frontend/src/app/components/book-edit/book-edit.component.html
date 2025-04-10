@@ -1,0 +1,67 @@
+<div style="max-width: 600px; margin: 40px auto;">
+  <h2 style="text-align: center;">✏️ Buch bearbeiten</h2>
+
+  <form #bookForm="ngForm" (ngSubmit)="updateBook(bookForm)">
+    <!-- Titel -->
+    <label>Titel *</label>
+    <input type="text" name="title" [(ngModel)]="book.title" #title="ngModel" required minlength="2" maxlength="100"
+      class="form-control" />
+    <div *ngIf="bookForm.submitted && title.invalid" style="color: red;">
+      ❗ Titel ist erforderlich (mind. 2 Zeichen)
+    </div>
+
+    <!-- Autor -->
+    <label>Autor *</label>
+    <input type="text" name="author" [(ngModel)]="book.author" #author="ngModel" required minlength="2" maxlength="100"
+      class="form-control" />
+    <div *ngIf="bookForm.submitted && author.invalid" style="color: red;">
+      ❗ Autor ist erforderlich (mind. 2 Zeichen)
+    </div>
+
+    <!-- ISBN -->
+    <label>ISBN *</label>
+    <input type="text" name="isbn" [(ngModel)]="book.isbn" #isbn="ngModel" required pattern="^[0-9\\-]{10,17}$"
+      class="form-control" />
+    <div *ngIf="bookForm.submitted && isbn.invalid" style="color: red;">
+      ❗ ISBN ist erforderlich (z. B. 978-3-16-148410-0)
+    </div>
+
+    <!-- Beschreibung -->
+    <label>Beschreibung</label>
+    <textarea name="description" [(ngModel)]="book.description" rows="3" class="form-control"></textarea>
+
+    <!-- Veröffentlichungsdatum -->
+    <label>Veröffentlichungsdatum</label>
+    <input type="date" name="publicationDate" [(ngModel)]="book.publicationDate" class="form-control" />
+
+    <!-- Preis -->
+    <label>Preis (€) *</label>
+    <input type="number" name="price" [(ngModel)]="book.price" #price="ngModel" required min="0" step="0.01"
+      class="form-control" />
+    <div *ngIf="bookForm.submitted && price.invalid" style="color: red;">
+      ❗ Preis ist erforderlich und muss ≥ 0 sein
+    </div>
+
+    <!-- Seitenanzahl -->
+    <label>Seiten *</label>
+    <input type="number" name="pages" [(ngModel)]="book.pages" #pages="ngModel" required min="1" class="form-control" />
+    <div *ngIf="bookForm.submitted && pages.invalid" style="color: red;">
+      ❗ Seitenanzahl ist erforderlich und muss ≥ 1 sein
+    </div>
+
+    <!-- Genre -->
+    <label>Genre</label>
+    <input type="text" name="genre" [(ngModel)]="book.genre" maxlength="50" class="form-control" />
+
+    <!-- Verfügbar -->
+    <label style="display: flex; align-items: center; gap: 5px; margin-top: 10px;">
+      <input type="checkbox" name="inStock" [(ngModel)]="book.inStock" />
+      Verfügbar
+    </label>
+
+    <br />
+    <button type="submit" class="btn btn-primary">
+      💾 Änderungen speichern
+    </button>
+  </form>
+</div>

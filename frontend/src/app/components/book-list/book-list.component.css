@@ -1,0 +1,99 @@
+.bookstore-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.headline {
+  margin-bottom: 30px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.book-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.book-table th,
+.book-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.status.loading,
+.status.error,
+.status.empty {
+  margin: 20px;
+  font-size: 18px;
+}
+
+.available {
+  color: green;
+  font-weight: bold;
+}
+
+.unavailable {
+  color: gray;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.btn-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-action.edit:hover {
+  color: orange;
+}
+
+.btn-action.delete:hover {
+  color: red;
+}
+
+.btn-add {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  background-color: #1565c0;
+}
+
+.add-button-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+
+}

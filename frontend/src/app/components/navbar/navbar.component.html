@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="nav-full">
+    <ng-container *ngIf="isLoggedIn; else guestMenu">
+      👋 Hallo {{ username }} |
+      <a href="#" (click)="logout()">📕 Logout</a>
+    </ng-container>
+    <ng-template #guestMenu>
+      <a routerLink="/login">🔐 Login</a>
+    </ng-template>
+  </div>
+</nav>

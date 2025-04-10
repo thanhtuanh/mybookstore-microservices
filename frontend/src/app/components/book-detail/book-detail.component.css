@@ -1,0 +1,71 @@
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fafafa;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+input,
+textarea {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-primary {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #e0e5eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #c9d3de;
+}
+
+.back-link {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
