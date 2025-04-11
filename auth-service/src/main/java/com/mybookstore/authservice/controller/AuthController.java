@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200") // ✅ CORS aktiviert für Angular
+@CrossOrigin(origins = "*") // ✅ CORS aktiviert für Angular
 public class AuthController {
 
     private final UserRepository userRepository;

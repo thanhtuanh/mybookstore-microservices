@@ -19,7 +19,7 @@ export interface Book {
   providedIn: 'root'
 })
 export class BookService {
-  private readonly apiUrl = 'http://localhost:8081/api/books';
+  private readonly apiUrl = 'http://localhost:8082/api/books';
 
   constructor(private readonly http: HttpClient) { }
 
