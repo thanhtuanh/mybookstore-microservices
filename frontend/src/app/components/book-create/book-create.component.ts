@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { BookService, Book } from '../../services/book.service';
+import { BookService } from '../../services/book.service';
+import { Book } from '../../models/book.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -44,7 +45,10 @@ export class BookCreateComponent implements OnInit {
       return;
     }
 
-    this.bookService.createBook(this.book).subscribe({
+    // Erstelle eine Kopie des Buchobjekts ohne die ID
+    const { id, ...bookToSave } = this.book;
+
+    this.bookService.createBook(bookToSave as Book).subscribe({
       next: () => this.router.navigate(['/books']),
       error: err => console.error('❌ Fehler beim Speichern:', err)
     });

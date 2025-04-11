@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Book {
@@ -23,28 +23,52 @@ export class BookService {
 
   constructor(private readonly http: HttpClient) { }
 
+  // Hilfsmethode für HTTP-Header mit Authentifizierung
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
+  }
+
   // 📚 Alle Bücher abrufen
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.apiUrl);
+    return this.http.get<Book[]>(this.apiUrl, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
   // 📖 Ein einzelnes Buch per ID abrufen
   getBook(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.apiUrl}/${id}`);
+    return this.http.get<Book>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
   // ➕ Neues Buch erstellen
   createBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl, book);
+    return this.http.post<Book>(this.apiUrl, book, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
   // ✏️ Buch aktualisieren
   updateBook(id: number, book: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/${id}`, book);
+    return this.http.put<Book>(`${this.apiUrl}/${id}`, book, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 
   // 🗑️ Buch löschen
   deleteBook(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    });
   }
 }

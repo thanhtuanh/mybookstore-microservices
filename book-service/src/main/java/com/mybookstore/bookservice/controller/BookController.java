@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 @Tag(name = "Book", description = "Book management APIs")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class BookController {
 
     private final BookService bookService;

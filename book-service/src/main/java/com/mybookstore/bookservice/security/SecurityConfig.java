@@ -37,11 +37,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:4200")); // ✅ KEIN "*"
+        // Wenn Sie nur localhost:4200 erlauben möchten:
+        config.setAllowedOrigins(List.of("http://localhost:4200")); // Verwenden Sie setAllowedOrigins statt
+                                                                    // setAllowedOriginPatterns
+        // ODER wenn Sie wirklich Pattern-Matching wollen:
+        // config.setAllowedOriginPatterns(List.of("http://localhost:*")); // Erlaubt
+        // alle Ports auf localhost
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // ✅ nur erlaubt mit OriginPattern!
-
+        config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
